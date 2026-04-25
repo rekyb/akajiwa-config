@@ -163,12 +163,11 @@ Heavy commands check the current model and remind the user to switch to Opus if 
 **`/xplan`** — Plan a feature or change before any code is written.
 
 * Checks for existing `.claude/CLAUDE.md` — creates it if missing (same as `/xinit`)
-* Reads `memory/features-index.md` to surface relevant existing features
-* Determines scope from the feature description: FE only, BE only, or full stack
-* Assesses difficulty per scope: simple or complex
-* Asks focused questions scoped to what is actually needed (data model, API routes, component breakdown)
-* Generates `docs/plans/\[feature]-context.md` and `docs/plans/\[feature]-plan.md`
-* Appends feature entry to `memory/features-index.md` when plan artifacts are generated
+* **Scope Clarification:** Verifies Who, When, Output, and Boundary for the feature.
+* **Research Phase:** Systematically traces the impact from UI to DB (UI -> API -> Service -> DB).
+* **Plan Construction:** Generates concrete steps with exact file paths and function names.
+* **Test Plan:** Mandatory test step for every implementation step in the plan.
+* **Confidence Scoring:** Calculates a percentage based on known steps and research deductions.
 * Recommends which vibe command and model to use at the end of the plan:
   - FE only, simple → `/xvibe-fe` on Haiku
   - FE only, complex → `/xvibe-fe` on Sonnet
@@ -177,16 +176,14 @@ Heavy commands check the current model and remind the user to switch to Opus if 
   - Full stack → lists FE and BE separately with their own difficulty and model recommendation
 * Opus recommended — shows reminder if on Sonnet or Haiku
 
-**Difficulty criteria:**
+**Confidence Scoring Logic:**
 
-| Simple | Complex |
+| Component | Calculation |
 |---|---|
-| Color, font, spacing changes | Business logic, multi-step workflows |
-| Basic CRUD endpoints | Authentication, authorization flows |
-| Config changes | State machines, data transformations |
-| Copy edits | Complex queries, aggregations |
-| Renaming, restructuring | Performance optimization |
-| Standard form components | Algorithm implementation |
+| Base Score | (steps_with_zero_unknowns / total_steps) * 100 |
+| Research Deduction | -3 per unchecked research item |
+| Unknowns Deduction | -5 per MEDIUM unknown, -10 per HIGH unknown |
+| Recommendation Gate | < 85% confidence triggers recommendation for more research |
 
 **`/xdesign`** — UI/UX design brief and direction.
 
