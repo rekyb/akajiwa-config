@@ -1,124 +1,104 @@
 ---
 name: xplan
-description: Plan a feature or change before any code is written. Determines FE/BE scope, assesses difficulty per scope, and recommends the right vibe command and model. Opus recommended.
+description: Create structured execution plan with confidence scoring and risk assessment. Determines FE/BE scope, assesses difficulty, and recommends models. Opus recommended.
 ---
 
-# Feature Planning
+# Structured Feature Planning
 
-## Model check
+## Step 0 — Force model switch to Opus
 
-Check the current model before proceeding. If not on Opus, output:
+Run this before anything else:
 
+```bash
+python3 -c "
+import json, pathlib
+p = pathlib.Path('.claude/settings.json')
+s = json.loads(p.read_text())
+s['model'] = 'claude-opus-4-7'
+p.write_text(json.dumps(s, indent=2))
+print('Model set to claude-opus-4-7')
+"
 ```
-/xplan works best on Opus for deep reasoning and multi-step planning.
-Current model: [detected model]
-Switch with: /model claude-opus-4-7
 
-Continue on current model, or switch first?
+Confirm with: `Model: OPUS | Status: Planning`
+
+## Step 1 — Project context & Scope Clarification
+
+Check for `.claude/CLAUDE.md`. If missing, run setup as defined in `/xinit`.
+
+**Multi-repo detection (Claude decides, does not ask):**
+- Task involves any new or changed API endpoint → BE repo is in scope
+- Task involves any UI component or page → FE repo is in scope
+- Both → multi-repo task: verify both repos are accessible, confirm `.env`/`.env.local` exist, and require API Contract to be written before any implementation step
+
+If ANY of these are ambiguous regarding the request, ask (one at a time):
+```
+Who?      [which user roles/personas?]
+When?     [what triggers the feature?]
+Output?   [one concrete example of expected behavior]
+Boundary? [what is explicitly out of scope for this plan]
 ```
 
-Wait for the user's response before continuing.
+If the user provided enough context, skip — do NOT ask.
 
-## Step 1 — Project context
-
-Check for `.claude/CLAUDE.md` in the current directory.
-
-If it does not exist:
-- Ask the following setup questions one at a time:
-  1. What is this project?
-  2. Any stack differences from your global defaults (Next.js, Express, MongoDB)?
-  3. Any existing conventions or features to know about?
-- Read the existing codebase structure to detect patterns
-- Create `.claude/CLAUDE.md` using the template at `~/.claude/templates/project-claude.md`
-- Create `.claude/memory/memory.md` with an empty header
-- Confirm: "Project config created. Now planning your feature..."
-
-If it exists, read it silently before asking any questions.
-
-## Step 2 — Features index
+## Step 2 — Features index & Discovery
 
 Read `~/.claude/memory/features-index.md`.
+Surface relevant existing features if they can be reused or require integration.
 
-If relevant existing features are found based on what the user wants to build, surface them:
+## Step 3 — Research Phase (NEVER skip)
 
-```
-Relevant existing features found:
+Systematically trace the feature impact:
+- Read ALL related files.
+- Trace the full path: UI Component → Hook → API Endpoint → Service Layer → Data Model.
+- Identify exact file paths and function names for every layer.
+- Write findings to `docs/plans/[feature-name]-context.md`.
 
--> [Feature Name] ([project])
-   [What it exposes that may be relevant]
-
-Should the plan account for integration with these?
-```
-
-Wait for the user's response.
-
-## Step 3 — Focused questions
-
-Ask one question at a time. Minimum questions before planning:
-
-1. What does this feature do from the user's perspective?
-2. Any constraints or known edge cases?
-3. Is there an existing design to follow?
-
-Stop asking when you have enough to determine scope and write the plan.
-
-## Step 4 — Scope and difficulty assessment
-
-Determine scope:
-- FE only: no data persistence, no API, UI and interaction changes only
-- BE only: no UI changes, API, data, or service layer only
-- Full stack: requires both API and UI changes
-
-Assess difficulty per scope using these criteria:
-
-Simple:
-- Color, font, or spacing changes
-- Basic CRUD endpoints
-- Config changes
-- Copy edits
-- Renaming or restructuring
-- Standard form components
-
-Complex:
-- Business logic, multi-step workflows
-- Authentication or authorization flows
-- State machines, data transformations
-- Complex queries or aggregations
-- Performance optimization
-- Algorithm implementation
-
-## Step 5 — Generate plan artifacts
-
-Create `docs/plans/[feature-name]-context.md` with:
-- What was found in the codebase relevant to this feature
-- Existing components, APIs, or patterns that can be reused
-- Constraints discovered during research
+## Step 4 — Plan Construction
 
 Create `docs/plans/[feature-name]-plan.md` with:
-- Scope and difficulty assessment
-- Data model changes (if any)
-- API routes (if any): method, path, request body, response shape
-- Component breakdown (if any): component name, props, responsibilities
-- Implementation order (BE first for full stack)
 
-## Step 6 — Update features index
+- **Scope & Difficulty:** [FE only / BE only / Full stack] and [Simple / Complex].
+- **API Contract:** (Required before implementation steps) method, path, request/response shapes.
+- **User Role Coverage:** Matrix of which roles are affected and how per implementation step.
+- **Plan Wiring:** Full call chains — UI → Hook → API → Service → DB — for every user-facing flow.
+- **Component Breakdown:** Name, props, state, and responsibilities.
+- **Implementation Steps:** Exact file paths, function names, and specific changes.
+- **Test Plan (Mandatory):** For every implementation step (service, hook, component), list the test file path and exactly what it will assert.
 
-Append to `~/.claude/memory/features-index.md`:
+## Step 5 — Self-Review
 
-```md
-## [Feature Name]
-- Project: [project name from .claude/CLAUDE.md]
-- Repo: [git remote url or local path]
-- Planned: [today's date YYYY-MM-DD]
-- What: [one sentence description]
-- Exposes:
-  - API: [routes, or "none"]
-  - Component: [component names, or "none"]
-  - Hook: [hook names, or "none"]
-- Data: [key data model fields, or "none"]
+Before scoring, check every item:
+- No vague steps — every step names exact file, function, and change
+- No missing file paths
+- Auth guards present on all protected endpoints
+- Error paths documented for every external call
+- Empty states handled in every UI component
+- Wiring gaps — every call chain is complete end-to-end
+- API Contract present and placed before implementation steps (multi-repo: both repos)
+- No step writes "update X" without specifying exactly what changes
+
+Fix any gaps before proceeding to scoring.
+
+## Step 6 — Confidence Scoring
+
+Calculate and include in the plan:
+```
+Base Score = (steps_with_zero_unknowns / total_steps) * 100
+Deductions:
+-3 per unchecked research item
+-5 per MEDIUM unknown
+-10 per HIGH unknown (ambiguity/missing docs)
+Final Confidence: [Score]%
 ```
 
-## Step 7 — End with recommendation
+**Hard gate:** If there are more than 2 unresolved unknowns, stop. Do not present the plan. Surface the unknowns and ask the user to clarify or do more research before continuing.
+
+## Step 7 — Update features index
+
+Append the new feature to `~/.claude/memory/features-index.md` as soon as the plan is finalized.
+
+## Step 8 — End with recommendation
 
 Output the following summary block:
 
@@ -129,6 +109,8 @@ Difficulty:
   BE: [Simple / Complex] — [one-line reason]
   FE: [Simple / Complex] — [one-line reason]
 
+Confidence: [Score]% — [Reason for score and top risk]
+
 Recommended:
   [/xvibe-be on Haiku/Sonnet] — [reason]
   [/xvibe-fe on Haiku/Sonnet] — [reason]
@@ -136,9 +118,18 @@ Recommended:
 For full stack: build BE first (data layer), then FE.
 ```
 
+If Confidence is < 85%, add:
+"Recommendation: Perform more research or clarify [specific item] before building."
+
 ## Rules
 
-- No emojis
-- Ask one question at a time — never batch questions
-- Never write any implementation code — this command produces plans only
-- Scope must be explicitly stated before any recommendation
+- No emojis.
+- NEVER skip the research phase.
+- NEVER skip the self-review step.
+- NEVER write "update X" — name exact file, function, and nature of the change.
+- NEVER produce a plan without a corresponding test plan step for every implementation step.
+- NEVER present a plan with more than 2 unresolved unknowns — surface them and stop.
+- Ask one question at a time — never batch questions.
+- Never write any implementation code — this command produces plans only.
+- If Confidence is Low (< 70%), warn the user clearly before finishing the plan.
+- Multi-repo: API Contract must appear in the plan before any implementation step.
