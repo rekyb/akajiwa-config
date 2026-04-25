@@ -175,14 +175,14 @@ Write-Host "    /get-memory    Pull latest shared memory"
 
 # Check optional co-op skills
 $coopSkills = @(
-    @{ name = "frontend-dev-guidelines"; desc = "/xvibe-fe — React/TypeScript component guidance" }
-    @{ name = "frontend-design-pro";     desc = "/xvibe-fe — distinctive visual treatment" }
-    @{ name = "debugging";               desc = "/xvibe-fe /xvibe-be — systematic debugging" }
-    @{ name = "databases";               desc = "/xvibe-be — MongoDB and Mongoose guidance" }
-    @{ name = "backend-development";     desc = "/xvibe-be — service layer and API architecture" }
-    @{ name = "ui-ux-pro-max";           desc = "/xvibe-design — full UI/UX design intelligence" }
-    @{ name = "aesthetic";               desc = "/xvibe-design — opinionated visual beauty" }
-    @{ name = "web-design-guidelines";   desc = "/xvibe-design — UI guideline validation" }
+    @{ name = "frontend-dev-guidelines"; desc = "/xvibe-fe - React/TypeScript component guidance" }
+    @{ name = "frontend-design-pro";     desc = "/xvibe-fe - distinctive visual treatment" }
+    @{ name = "debugging";               desc = "/xvibe-fe /xvibe-be - systematic debugging" }
+    @{ name = "databases";               desc = "/xvibe-be - MongoDB and Mongoose guidance" }
+    @{ name = "backend-development";     desc = "/xvibe-be - service layer and API architecture" }
+    @{ name = "ui-ux-pro-max";           desc = "/xvibe-design - full UI/UX design intelligence" }
+    @{ name = "aesthetic";               desc = "/xvibe-design - opinionated visual beauty" }
+    @{ name = "web-design-guidelines";   desc = "/xvibe-design - UI guideline validation" }
 )
 
 $missingCoops = $coopSkills | Where-Object { -not (Test-Path (Join-Path $SkillsDir $_.name)) }

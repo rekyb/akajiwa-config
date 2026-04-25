@@ -179,7 +179,7 @@ install_rtk() {
     if "$rtk_dir/rtk" --version &>/dev/null; then
         echo "RTK: installed ($("$rtk_dir/rtk" --version))"
     else
-        echo "RTK: installed to $rtk_dir/rtk — restart terminal to use"
+        echo "RTK: installed to $rtk_dir/rtk - restart terminal to use"
     fi
 }
 
@@ -208,14 +208,14 @@ echo "    /get-memory    Pull latest shared memory"
 
 # Check optional co-op skills
 COOP_SKILLS=(
-    "frontend-dev-guidelines:/xvibe-fe — React/TypeScript component guidance"
-    "frontend-design-pro:/xvibe-fe — distinctive visual treatment"
-    "debugging:/xvibe-fe /xvibe-be — systematic debugging"
-    "databases:/xvibe-be — MongoDB and Mongoose guidance"
-    "backend-development:/xvibe-be — service layer and API architecture"
-    "ui-ux-pro-max:/xvibe-design — full UI/UX design intelligence"
-    "aesthetic:/xvibe-design — opinionated visual beauty"
-    "web-design-guidelines:/xvibe-design — UI guideline validation"
+    "frontend-dev-guidelines:/xvibe-fe - React/TypeScript component guidance"
+    "frontend-design-pro:/xvibe-fe - distinctive visual treatment"
+    "debugging:/xvibe-fe /xvibe-be - systematic debugging"
+    "databases:/xvibe-be - MongoDB and Mongoose guidance"
+    "backend-development:/xvibe-be - service layer and API architecture"
+    "ui-ux-pro-max:/xvibe-design - full UI/UX design intelligence"
+    "aesthetic:/xvibe-design - opinionated visual beauty"
+    "web-design-guidelines:/xvibe-design - UI guideline validation"
 )
 
 MISSING_COOPS=()
