@@ -30,6 +30,7 @@ cd akajiwa-config
 ```
 
 The installer:
+
 - Merges global CLAUDE.md into `~/.claude/CLAUDE.md`
 - Symlinks all commands into `~/.claude/skills/`
 - Configures RTK auto-prefix hook (automatically prefixes commands with `rtk`)
@@ -49,25 +50,25 @@ The installer:
 
 ### Heavy — switch to Opus first.
 
-| Command | What it does |
-|---|---|
-| `/xplan` | Plan a feature before building. Determines FE/BE scope, difficulty, and recommends which vibe command and model to use. Generates plan artifacts in `docs/plans/`. |
+| Command    | What it does                                                                                                                                                                       |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/xplan`   | Plan a feature before building. Determines FE/BE scope, difficulty, and recommends which vibe command and model to use. Generates plan artifacts in `docs/plans/`.                 |
 | `/xdesign` | UI/UX design brief with 4 execution modes (Explore, Prototype, Implement, Review). Loads design system and checks for component reuse. Generates design artifact in `docs/plans/`. |
-| `/xreview` | Fresh-context code or design review. Reads the diff and flags issues against quality standards, SonarQube rules, and anti-slop standards. |
+| `/xreview` | Fresh-context code or design review. Reads the diff and flags issues against quality standards, SonarQube rules, and anti-slop standards.                                          |
 
 ### Light — model determined by /xplan difficulty.
 
-| Command | What it does |
-|---|---|
-| `/xvibe-fe` | Fast iteration for frontend — components, hooks, UI, styling. Haiku for simple, Sonnet for complex. |
-| `/xvibe-be` | Fast iteration for backend — routes, models, middleware. Haiku for simple, Sonnet for complex. |
-| `/xvibe-design` | Fast iteration for design — layout, visuals, copy. Auto-loads `/xdesign` artifacts and project design system. |
-| `/xqa` | Generate a Playwright test plan and scaffold for a flow. |
-| `/xinit` | Set up project config for an existing project without planning a feature. |
-| `/xretro` | Session retrospective. Captures corrections, patterns, and discoveries to memory. Runs automatically at session end. |
-| `/xreflect` | Promote recurring patterns (3+) to global CLAUDE.md. Commits and pushes to this repo on approval. |
-| `/update-memory` | Commit and push project memory to the project repo. |
-| `/get-memory` | Pull latest shared memory and config updates from this repo. |
+| Command          | What it does                                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `/xvibe-fe`      | Fast iteration for frontend — components, hooks, UI, styling. Haiku for simple, Sonnet for complex.                  |
+| `/xvibe-be`      | Fast iteration for backend — routes, models, middleware. Haiku for simple, Sonnet for complex.                       |
+| `/xvibe-design`  | Fast iteration for design — layout, visuals, copy. Auto-loads `/xdesign` artifacts and project design system.        |
+| `/xqa`           | Generate a Playwright test plan and scaffold for a flow.                                                             |
+| `/xinit`         | Set up project config for an existing project without planning a feature.                                            |
+| `/xretro`        | Session retrospective. Captures corrections, patterns, and discoveries to memory. Runs automatically at session end. |
+| `/xreflect`      | Promote recurring patterns (3+) to global CLAUDE.md. Commits and pushes to this repo on approval.                    |
+| `/update-memory` | Commit and push project memory to the project repo.                                                                  |
+| `/get-memory`    | Pull latest shared memory and config updates from this repo.                                                         |
 
 ---
 
@@ -78,11 +79,12 @@ The installer:
 1. Open Claude Code in your project folder
 2. Run `/xplan` and describe what you want to build
    - First time in this project: setup runs automatically, no `/xinit` needed
-3. Follow the model recommendation from `/xplan`
-4. Build using `/xvibe-fe`, `/xvibe-be`, or `/xvibe-design`
-5. Run `/xqa` before finishing a flow
-6. Run `/xreview` before committing
-7. End the session — `/xretro` fires automatically
+3. (Optional) Run `/xdesign` if UI/UX direction or new screens are required
+4. Follow the model recommendation from `/xplan`
+5. Build using `/xvibe-fe`, `/xvibe-be`, or `/xvibe-design`
+6. Run `/xqa` before finishing a flow
+7. Run `/xreview` before committing
+8. End the session — `/xretro` fires automatically
 
 ### Setting up an existing project without a feature to plan
 
@@ -97,21 +99,21 @@ Run `/xinit` once. Then use `/xplan` for all future sessions.
 
 ### Model guide
 
-| Model | Commands |
-|---|---|
-| Opus | `/xplan`, `/xdesign`, `/xreview` |
+| Model  | Commands                                                           |
+| ------ | ------------------------------------------------------------------ |
+| Opus   | `/xplan`, `/xdesign`, `/xreview`                                   |
 | Sonnet | `/xqa`, `/xinit`, `/xretro`, `/xreflect`, complex `/xvibe-*` tasks |
-| Haiku | `/update-memory`, `/get-memory`, simple `/xvibe-*` tasks |
+| Haiku  | `/update-memory`, `/get-memory`, simple `/xvibe-*` tasks           |
 
 ---
 
 ## Memory architecture
 
-| Layer | Location | Scope |
-|---|---|---|
-| Shared standards | `memory/memory.md` in this repo | All projects, all machines |
-| Features index | `memory/features-index.md` in this repo | Cross-project feature awareness |
-| Project learnings | `.claude/memory/memory.md` in each project repo | That project only |
+| Layer             | Location                                        | Scope                           |
+| ----------------- | ----------------------------------------------- | ------------------------------- |
+| Shared standards  | `memory/memory.md` in this repo                 | All projects, all machines      |
+| Features index    | `memory/features-index.md` in this repo         | Cross-project feature awareness |
+| Project learnings | `.claude/memory/memory.md` in each project repo | That project only               |
 
 ---
 
