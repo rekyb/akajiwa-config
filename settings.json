@@ -1,23 +1,12 @@
 {
   "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "claude /xretro"
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"RTK reminder: prefix terminal commands with rtk for token savings\""
+            "command": "jq -r '.tool_input.command' | { read -r cmd; if [[ $cmd =~ ^(vitest|next|prettier|npm|pnpm|yarn|git|docker)\\s ]]; then echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"updatedInput\": {\"command\": \"rtk '\"$cmd\"'\"}}}'; else echo '{}'; fi; }"
           }
         ]
       }

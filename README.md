@@ -1,6 +1,6 @@
 # Akajiwa — Claude Code Config
 
-Personal Claude Code config for a solo PM + product engineer + UX designer. Layered config, task-specific commands, and a self-upgrading memory loop that reduces AI slop over time.
+Senior Solo PM + Senior product engineer + Senior UI/UX designer config. Layered commands, automated RTK workflow, and a self-upgrading memory loop that reduces AI slop over time.
 
 ---
 
@@ -32,6 +32,7 @@ cd akajiwa-config
 The installer:
 - Merges global CLAUDE.md into `~/.claude/CLAUDE.md`
 - Symlinks all commands into `~/.claude/skills/`
+- Configures RTK auto-prefix hook (automatically prefixes commands with `rtk`)
 - Configures the Stop hook (auto-retro on session end)
 - Downloads and installs RTK for your OS and architecture
 - Creates memory files at `~/.claude/memory/`
@@ -46,21 +47,21 @@ The installer:
 
 ## Commands
 
-### Heavy — switch to Opus first. Commands will remind you if you forget.
+### Heavy — switch to Opus first.
 
 | Command | What it does |
 |---|---|
 | `/xplan` | Plan a feature before building. Determines FE/BE scope, difficulty, and recommends which vibe command and model to use. Generates plan artifacts in `docs/plans/`. |
-| `/xdesign` | UI/UX design brief. Checks for existing components before proposing new ones. Generates design artifact in `docs/plans/`. |
+| `/xdesign` | UI/UX design brief with 4 execution modes (Explore, Prototype, Implement, Review). Loads design system and checks for component reuse. Generates design artifact in `docs/plans/`. |
 | `/xreview` | Fresh-context code or design review. Reads the diff and flags issues against quality standards, SonarQube rules, and anti-slop standards. |
 
-### Light — model is determined by /xplan difficulty assessment.
+### Light — model determined by /xplan difficulty.
 
 | Command | What it does |
 |---|---|
 | `/xvibe-fe` | Fast iteration for frontend — components, hooks, UI, styling. Haiku for simple, Sonnet for complex. |
 | `/xvibe-be` | Fast iteration for backend — routes, models, middleware. Haiku for simple, Sonnet for complex. |
-| `/xvibe-design` | Fast iteration for design — layout, visuals, copy. Haiku for simple, Sonnet for complex. |
+| `/xvibe-design` | Fast iteration for design — layout, visuals, copy. Auto-loads `/xdesign` artifacts and project design system. |
 | `/xqa` | Generate a Playwright test plan and scaffold for a flow. |
 | `/xinit` | Set up project config for an existing project without planning a feature. |
 | `/xretro` | Session retrospective. Captures corrections, patterns, and discoveries to memory. Runs automatically at session end. |
