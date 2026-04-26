@@ -1,4 +1,4 @@
-# Akajiwa — Claude Code Config
+# Reky Claude Config
 
 Senior Solo PM + Senior product engineer + Senior UI/UX designer config. Layered commands, automated RTK workflow, and a self-upgrading memory loop that reduces AI slop over time.
 
@@ -15,8 +15,8 @@ Senior Solo PM + Senior product engineer + Senior UI/UX designer config. Layered
 ### Mac / Linux
 
 ```bash
-git clone https://github.com/rekyb/akajiwa-config
-cd akajiwa-config
+git clone https://github.com/rekyb/reky-claude-config
+cd reky-claude-config
 chmod +x install.sh
 ./install.sh
 ```
@@ -24,8 +24,8 @@ chmod +x install.sh
 ### Windows
 
 ```powershell
-git clone https://github.com/rekyb/akajiwa-config
-cd akajiwa-config
+git clone https://github.com/rekyb/reky-claude-config
+cd reky-claude-config
 ./install.ps1
 ```
 

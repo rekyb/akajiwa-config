@@ -9,7 +9,7 @@ TEMPLATES_DIR="$CLAUDE_HOME/templates"
 SETTINGS_FILE="$CLAUDE_HOME/settings.json"
 CONFIG_PATH_FILE="$CLAUDE_HOME/.akajiwa-config-path"
 
-echo "Akajiwa Claude Code Config - Installer"
+echo "Reky Claude Code Config - Installer"
 echo "======================================="
 echo ""
 
@@ -53,7 +53,6 @@ done
 HOOK_CONFIG="$(cat <<'EOF'
 {
   "hooks": {
-    "Stop": [{"matcher": "", "hooks": [{"type": "command", "command": "claude /xretro"}]}],
     "PreToolUse": [{"matcher": "Bash", "hooks": [{"type": "command", "command": "echo \"RTK reminder: prefix terminal commands with rtk\""}]}]
   }
 }
@@ -61,14 +60,14 @@ EOF
 )"
 
 if [ -f "$SETTINGS_FILE" ]; then
+    SETTINGS_WIN_PATH="$(cygpath -w "$SETTINGS_FILE")"
     python3 - <<PYEOF
 import json
 
-with open('$SETTINGS_FILE', 'r') as f:
+with open(r'$SETTINGS_WIN_PATH', 'r') as f:
     existing = json.load(f)
 
 new_hooks = {
-    "Stop": [{"matcher": "", "hooks": [{"type": "command", "command": "claude /xretro"}]}],
     "PreToolUse": [{"matcher": "Bash", "hooks": [{"type": "command", "command": "echo 'RTK reminder: prefix terminal commands with rtk'"}]}]
 }
 
@@ -88,7 +87,7 @@ for hook_type, hook_list in new_hooks.items():
             if cmd not in existing_cmds:
                 existing['hooks'][hook_type].append(hook)
 
-with open('$SETTINGS_FILE', 'w') as f:
+with open(r'$SETTINGS_WIN_PATH', 'w') as f:
     json.dump(existing, f, indent=2)
 PYEOF
     echo "settings.json: hooks merged"

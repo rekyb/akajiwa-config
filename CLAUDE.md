@@ -1,4 +1,4 @@
-# Akajiwa — Global Claude Code Config
+# Reky Claude Config
 
 ## Identity
 

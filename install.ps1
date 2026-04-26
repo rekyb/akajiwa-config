@@ -8,7 +8,7 @@ $TemplatesDir = Join-Path $ClaudeHome "templates"
 $SettingsFile = Join-Path $ClaudeHome "settings.json"
 $ConfigPathFile = Join-Path $ClaudeHome ".akajiwa-config-path"
 
-Write-Host "Akajiwa Claude Code Config - Installer"
+Write-Host "Reky Claude Code Config - Installer"
 Write-Host "======================================="
 Write-Host ""
 
@@ -53,10 +53,6 @@ Get-ChildItem $SkillsSource -Directory | ForEach-Object {
 
 # 6. Merge settings.json
 $newHooks = @{
-    Stop = @(@{
-        matcher = ""
-        hooks = @(@{ type = "command"; command = "claude /xretro" })
-    })
     PreToolUse = @(@{
         matcher = "Bash"
         hooks = @(@{ type = "command"; command = "echo RTK reminder: prefix terminal commands with rtk" })

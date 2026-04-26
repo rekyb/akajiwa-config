@@ -2,7 +2,7 @@ $ClaudeHome  = Join-Path $env:USERPROFILE ".claude"
 $SkillsDir   = Join-Path $ClaudeHome "skills"
 $ConfigPathFile = Join-Path $ClaudeHome ".akajiwa-config-path"
 
-Write-Host "Akajiwa Claude Code Config - Uninstaller"
+Write-Host "Reky Claude Code Config - Uninstaller"
 Write-Host "========================================="
 Write-Host ""
 

@@ -4,7 +4,7 @@ set -euo pipefail
 CLAUDE_HOME="$HOME/.claude"
 SKILLS_DIR="$CLAUDE_HOME/skills"
 
-echo "Akajiwa Claude Code Config - Uninstaller"
+echo "Reky Claude Code Config - Uninstaller"
 echo "========================================="
 echo ""
 
