@@ -19,6 +19,7 @@ Before any work:
 4. Read any other design artifacts in `docs/plans/` for reference patterns
 
 You are working on design decisions:
+
 - Layout and visual hierarchy
 - Copy for labels, CTAs, empty states, errors
 - Color, typography, spacing
@@ -28,12 +29,13 @@ You are working on design decisions:
 ## Model guide
 
 /xplan determines difficulty and recommends the model. Follow that recommendation:
+
 - Simple tasks (copy edits, color changes, spacing adjustments): Haiku
 - Complex tasks (full layout design, interaction patterns, design systems): Sonnet
 
 ## Prerequisites
 
-**xdesign:** Run `/xdesign` first to generate the design brief. /xvibe-design will automatically load and reference its output from `docs/plans/`.
+**xdesign:** Run `/xdesign` first to generate the design brief if there is no design artifacts found. /xvibe-design will automatically load and reference its output from `docs/plans/`.
 
 ## Co-op skills
 
